@@ -5,40 +5,14 @@ function id(x) { return x[0]; }
 
     const { lexer } = require("./dist/lexer")
 
-function tokenStart(token) {
-    return {
-        line: token.line,
-        col: token.col - 1
-    };
-}
 
-function tokenEnd(token) {
-    const lastNewLine = token.text.lastIndexOf("\n");
-    if (lastNewLine !== -1) {
-        throw new Error("Unsupported case: token with line breaks");
-    }
-    return {
-        line: token.line,
-        col: token.col + token.text.length - 1
-    };
-}
-
-function convertToken(token) {
-    return token.toString();
-    return {
-        type: token.type,
-        value: token.value,
-        start: tokenStart(token),
-        end: tokenEnd(token)
-    };
-}
-const flat = (x) =>{
+/*const flat = (x) =>{
     if(Array.isArray(x) && x.length === 1 && Array.isArray(x[0])){
         return x[0]
     }else{
         return x
     }
-}
+}*/
 function convertTokenId(data) {
     return convertToken(data[0]);
 }
@@ -56,13 +30,17 @@ primary  (%binary4   operator4):*
 ]
     */
 const binaryFunc = (d)=>{
-    console.log("d", d)
+    console.log("d", JSON.stringify(d, null, 2))
     const left = d[0]
     const right =  d[1]
-    if(right === undefined){
-        return d[0]
+    console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
+    if(left === null || left === undefined){
+        return right
     }
-    if(right.length === 0) return d[0]
+    if(right === undefined || right === null){
+        return left
+    }
+    if(right.length === 0) return left
     const op = right[0][0]
     return {
             type:"functor",

@@ -6,10 +6,10 @@ export const lexer = moo.compile({
     rParen: /\)/,
     comma: /,/,
     variable: /[A-Z][A-Za-z]*/,
-    binary4: /\+|-/,
-    binary3: /\*|\//,
-    binary2: /\^/,
-    binary1: /=/,
+    binary2: ["+", "-"],///\+|-/,
+    binary3: ["*", "/"], // /\*|\//,
+    binary4: ["^"], ///\^/,
+    binary1: ["="], ///=/,
     symbol: /[a-z0-9][A-Za-z0-9]*/
 });
 
