@@ -1,0 +1,2 @@
+f_rule f(X) = X + c
+g_rule g(F(a)) = g(a)

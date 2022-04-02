@@ -1,0 +1,101 @@
+{
+    "type": "functor",
+    "value": {
+        "type": "symbol",
+        "value": {
+            "type": "binary1",
+            "value": "=",
+            "text": "=",
+            "offset": 6,
+            "lineBreaks": 0,
+            "line": 1,
+            "col": 7
+        }
+    },
+    "args": [
+        {
+            "type": "functor",
+            "value": {
+                "type": "symbol",
+                "value": {
+                    "type": "symbol",
+                    "value": "f",
+                    "text": "f",
+                    "offset": 0,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 1
+                }
+            },
+            "args": [
+                [
+                    {
+                        "type": "variable",
+                        "value": {
+                            "type": "variable",
+                            "value": "X",
+                            "text": "X",
+                            "offset": 2,
+                            "lineBreaks": 0,
+                            "line": 1,
+                            "col": 3
+                        }
+                    },
+                    {
+                        "type": "variable",
+                        "value": {
+                            "type": "variable",
+                            "value": "Y",
+                            "text": "Y",
+                            "offset": 4,
+                            "lineBreaks": 0,
+                            "line": 1,
+                            "col": 5
+                        }
+                    }
+                ]
+            ]
+        },
+        {
+            "type": "functor",
+            "value": {
+                "type": "symbol",
+                "value": {
+                    "type": "binary4",
+                    "value": "+",
+                    "text": "+",
+                    "offset": 8,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 9
+                }
+            },
+            "args": [
+                {
+                    "type": "variable",
+                    "value": {
+                        "type": "variable",
+                        "value": "X",
+                        "text": "X",
+                        "offset": 7,
+                        "lineBreaks": 0,
+                        "line": 1,
+                        "col": 8
+                    }
+                },
+                {
+                    "type": "symbol",
+                    "value": {
+                        "type": "symbol",
+                        "value": "1",
+                        "text": "1",
+                        "offset": 9,
+                        "lineBreaks": 0,
+                        "line": 1,
+                        "col": 10
+                    }
+                }
+            ]
+        }
+    ]
+}

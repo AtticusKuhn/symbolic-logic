@@ -1,0 +1,19 @@
+{
+  "name": "symlogic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "run": "tsc && node dist/index.js",
+    "all": "tsc && nearleyc ./src/parser.ne -o grammar.js && node ./dist/index.js"
+  },
+  "dependencies": {
+    "moo": "^0.5.1",
+    "nearley": "^2.20.1"
+  },
+  "devDependencies": {
+    "@types/moo": "^0.5.5",
+    "@types/nearley": "^2.11.2",
+    "@types/node": "^17.0.23"
+  }
+}
