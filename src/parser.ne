@@ -26,10 +26,10 @@ primary  (%binary4   operator4):*
 ]
     */
 const binaryFunc = (d)=>{
-    console.log("d", JSON.stringify(d, null, 2))
+    // console.log("d", JSON.stringify(d, null, 2))
     const left = d[0]
     const right =  d[1]
-    console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
+    //console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
     if(left === null || left === undefined){
         return right
     }
@@ -82,7 +82,7 @@ operator4  -> primary  (%binary4   operator4):* {%binaryFunc%}
 
 
 primary  -> 
-    (%lParen  tree  %rParen) {%(d) => d[1]%}
+    %lParen  tree  %rParen {%(d) => d[1]%}
     | applicationChain {%id%}
     | %symbol {%d=>({
             type:"symbol",

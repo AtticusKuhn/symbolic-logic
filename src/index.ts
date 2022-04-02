@@ -96,6 +96,7 @@ const replace = (bindings: binding, AST: AST): AST => {
             return newF;
         }
     } else {
+        // console.log("")
         const a = bindings.get(AST.value.value)
         if (a) {
             return a
@@ -105,8 +106,7 @@ const replace = (bindings: binding, AST: AST): AST => {
         }
     }
 }
-//@ts-ignore
-const toRule = (rule: AST) => (input: AST): AST => {
+const toRule = (rule: AST): Rule => (input) => {
     if (rule.type !== "functor") {
         throw new Error(`AST is not a functor`)
     }
@@ -124,6 +124,7 @@ const toRule = (rule: AST) => (input: AST): AST => {
         return input
     }
 }
+type Rule = (ast: AST) => AST;
 const infixes = new Set<string>(["+", "-", "*", "/", "^", "="])
 const ASTToString = (AST: AST): string => {
     if (AST.type === "functor") {
@@ -132,14 +133,61 @@ const ASTToString = (AST: AST): string => {
         }
         return `${AST.value.value}(${AST.args.map(ASTToString).join(", ")})`
     }
-    return AST.value.value
+    return AST?.value?.value
 }
+const loadRules = (): Rule[] => {
+    const file = fs.readFileSync("./src/rules.txt", "utf-8")
+    const lines = file.split("\n")
+    const rules = lines.map((line) => {
+        const a = line.split(" ").slice(1).join(" ");
+        console.log(a)
+        return toRule(parse(a))
+    })
+    const revRules = lines.map((line) => {
+        const a = line.split(" ").slice(1).join(" ");
+        console.log(a)
+        const p = parse(a)
+        return toRule({
+            ...p,
+            //@ts-ignore
+            args: [p.args[1], p.args[0]],
+        })
+    })
+    return [...rules, ...revRules];
+}
+const rules = loadRules()
+const apply = (AST: AST): Set<string> => {
+    const s = new Set<string>([ASTToString(AST)]);
+    for (let i = 0; i < 100; i++) {
+        for (const rule of rules) {
+            const elements = [...s]
+            for (const e of elements) {
+                const r = rule(parse(e))
+                if (!s.has(ASTToString(r))) {
+                    console.log("adding", ASTToString(r));
+                    s.add(ASTToString(r))
+                }
+            }
+        }
+    }
+    return s;
+}
+// const dist = toRule(parse(`A*(B+C) = A*B+A*C`))
+// const comm = toRule(parse(` A*B = B*A `))
+// const Assoc = toRule(parse(`A+(B+C) = (A+B)+C`))
+// const double = toRule(parse(` A + A = 2*A`))
+const expr = parse(`(A + B)^2`)
+// console.log(
+const s = apply(expr)
+console.log([...s].join("\n"));
+// )
 // console.log("rule", ASTToString(toRule(parse("f(X) = X + 1"))(parse("f(1)")))) // 1+1
 // console.log("rule", ASTToString(toRule(parse("F(a) = F*a + F"))(parse("g(a)")))) // a+g
 // console.log("rule", ASTToString(toRule(parse("A^B * A^C = A^(B+C)"))(parse("2^2*2^3")))) // a+g
-console.log(ASTToString(parse("A^B*C^D= 1")))
+// console.log(ASTToString(parse("A^B*C^D= 1")))
 // console.log(patternMatch(
 //     parse("F(X)"),
 //     parse("f(a)")
 // ))
+// console.log(ASTToString((parse("A^B * A^C = A^(B+C)"))));
 // fs.writeFileSync("./dump.json", JSON.stringify(parse("A^B * A^C = A^(B+C)"), null, 4))

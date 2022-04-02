@@ -30,10 +30,10 @@ primary  (%binary4   operator4):*
 ]
     */
 const binaryFunc = (d)=>{
-    console.log("d", JSON.stringify(d, null, 2))
+    // console.log("d", JSON.stringify(d, null, 2))
     const left = d[0]
     const right =  d[1]
-    console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
+    //console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
     if(left === null || left === undefined){
         return right
     }
@@ -90,8 +90,7 @@ var grammar = {
     {"name": "operator4$ebnf$1$subexpression$1", "symbols": [(lexer.has("binary4") ? {type: "binary4"} : binary4), "operator4"]},
     {"name": "operator4$ebnf$1", "symbols": ["operator4$ebnf$1", "operator4$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "operator4", "symbols": ["primary", "operator4$ebnf$1"], "postprocess": binaryFunc},
-    {"name": "primary$subexpression$1", "symbols": [(lexer.has("lParen") ? {type: "lParen"} : lParen), "tree", (lexer.has("rParen") ? {type: "rParen"} : rParen)]},
-    {"name": "primary", "symbols": ["primary$subexpression$1"], "postprocess": (d) => d[1]},
+    {"name": "primary", "symbols": [(lexer.has("lParen") ? {type: "lParen"} : lParen), "tree", (lexer.has("rParen") ? {type: "rParen"} : rParen)], "postprocess": (d) => d[1]},
     {"name": "primary", "symbols": ["applicationChain"], "postprocess": id},
     {"name": "primary", "symbols": [(lexer.has("symbol") ? {type: "symbol"} : symbol)], "postprocess": d=>({
                 type:"symbol",

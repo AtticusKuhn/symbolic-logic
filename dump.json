@@ -1,249 +1,146 @@
-[
-    {
-        "type": "functor",
+{
+    "type": "functor",
+    "value": {
+        "type": "symbol",
         "value": {
-            "type": "symbol",
+            "type": "binary1",
+            "value": "=",
+            "text": "=",
+            "offset": 7,
+            "lineBreaks": 0,
+            "line": 1,
+            "col": 8
+        }
+    },
+    "args": [
+        {
+            "type": "functor",
             "value": {
-                "type": "binary1",
-                "value": "=",
-                "text": "=",
-                "offset": 7,
-                "lineBreaks": 0,
-                "line": 1,
-                "col": 8
-            }
-        },
-        "args": [
-            {
-                "type": "functor",
+                "type": "symbol",
                 "value": {
-                    "type": "symbol",
+                    "type": "binary3",
+                    "value": "*",
+                    "text": "*",
+                    "offset": 3,
+                    "lineBreaks": 0,
+                    "line": 1,
+                    "col": 4
+                }
+            },
+            "args": [
+                {
+                    "type": "functor",
                     "value": {
-                        "type": "binary2",
-                        "value": "^",
-                        "text": "^",
-                        "offset": 1,
-                        "lineBreaks": 0,
-                        "line": 1,
-                        "col": 2
-                    }
-                },
-                "args": [
-                    {
-                        "type": "variable",
+                        "type": "symbol",
                         "value": {
-                            "type": "variable",
-                            "value": "A",
-                            "text": "A",
-                            "offset": 0,
+                            "type": "binary4",
+                            "value": "^",
+                            "text": "^",
+                            "offset": 1,
                             "lineBreaks": 0,
                             "line": 1,
-                            "col": 1
+                            "col": 2
                         }
                     },
-                    {
-                        "type": "functor",
-                        "value": {
-                            "type": "symbol",
+                    "args": [
+                        {
+                            "type": "variable",
                             "value": {
-                                "type": "binary2",
-                                "value": "^",
-                                "text": "^",
-                                "offset": 5,
+                                "type": "variable",
+                                "value": "A",
+                                "text": "A",
+                                "offset": 0,
                                 "lineBreaks": 0,
                                 "line": 1,
-                                "col": 6
+                                "col": 1
                             }
                         },
-                        "args": [
-                            {
-                                "type": "functor",
-                                "value": {
-                                    "type": "symbol",
-                                    "value": {
-                                        "type": "binary3",
-                                        "value": "*",
-                                        "text": "*",
-                                        "offset": 3,
-                                        "lineBreaks": 0,
-                                        "line": 1,
-                                        "col": 4
-                                    }
-                                },
-                                "args": [
-                                    {
-                                        "type": "variable",
-                                        "value": {
-                                            "type": "variable",
-                                            "value": "B",
-                                            "text": "B",
-                                            "offset": 2,
-                                            "lineBreaks": 0,
-                                            "line": 1,
-                                            "col": 3
-                                        }
-                                    },
-                                    {
-                                        "type": "variable",
-                                        "value": {
-                                            "type": "variable",
-                                            "value": "C",
-                                            "text": "C",
-                                            "offset": 4,
-                                            "lineBreaks": 0,
-                                            "line": 1,
-                                            "col": 5
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "variable",
-                                "value": {
-                                    "type": "variable",
-                                    "value": "D",
-                                    "text": "D",
-                                    "offset": 6,
-                                    "lineBreaks": 0,
-                                    "line": 1,
-                                    "col": 7
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "type": "symbol",
-                "value": {
-                    "type": "symbol",
-                    "value": "1",
-                    "text": "1",
-                    "offset": 8,
-                    "lineBreaks": 0,
-                    "line": 1,
-                    "col": 9
-                }
-            }
-        ]
-    },
-    {
-        "type": "functor",
-        "value": {
-            "type": "symbol",
-            "value": {
-                "type": "binary1",
-                "value": "=",
-                "text": "=",
-                "offset": 7,
-                "lineBreaks": 0,
-                "line": 1,
-                "col": 8
-            }
-        },
-        "args": [
-            {
-                "type": "functor",
-                "value": {
-                    "type": "symbol",
-                    "value": {
-                        "type": "binary2",
-                        "value": "^",
-                        "text": "^",
-                        "offset": 1,
-                        "lineBreaks": 0,
-                        "line": 1,
-                        "col": 2
-                    }
-                },
-                "args": [
-                    {
-                        "type": "variable",
-                        "value": {
+                        {
                             "type": "variable",
-                            "value": "A",
-                            "text": "A",
-                            "offset": 0,
+                            "value": {
+                                "type": "variable",
+                                "value": "B",
+                                "text": "B",
+                                "offset": 2,
+                                "lineBreaks": 0,
+                                "line": 1,
+                                "col": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "functor",
+                    "value": {
+                        "type": "symbol",
+                        "value": {
+                            "type": "binary4",
+                            "value": "^",
+                            "text": "^",
+                            "offset": 5,
                             "lineBreaks": 0,
                             "line": 1,
-                            "col": 1
+                            "col": 6
                         }
                     },
-                    {
-                        "type": "functor",
-                        "value": {
-                            "type": "symbol"
-                        },
-                        "args": [
-                            {
-                                "type": "functor",
-                                "value": {
-                                    "type": "symbol",
-                                    "value": {
-                                        "type": "binary3",
-                                        "value": "*",
-                                        "text": "*",
-                                        "offset": 3,
-                                        "lineBreaks": 0,
-                                        "line": 1,
-                                        "col": 4
-                                    }
-                                },
-                                "args": [
-                                    {
-                                        "type": "variable",
-                                        "value": {
-                                            "type": "variable",
-                                            "value": "B",
-                                            "text": "B",
-                                            "offset": 2,
-                                            "lineBreaks": 0,
-                                            "line": 1,
-                                            "col": 3
-                                        }
-                                    },
-                                    {
-                                        "type": "variable",
-                                        "value": {
-                                            "type": "variable",
-                                            "value": "C",
-                                            "text": "C",
-                                            "offset": 4,
-                                            "lineBreaks": 0,
-                                            "line": 1,
-                                            "col": 5
-                                        }
-                                    }
-                                ]
-                            },
-                            {
+                    "args": [
+                        {
+                            "type": "variable",
+                            "value": {
                                 "type": "variable",
-                                "value": {
-                                    "type": "variable",
-                                    "value": "D",
-                                    "text": "D",
-                                    "offset": 6,
-                                    "lineBreaks": 0,
-                                    "line": 1,
-                                    "col": 7
-                                }
+                                "value": "A",
+                                "text": "A",
+                                "offset": 4,
+                                "lineBreaks": 0,
+                                "line": 1,
+                                "col": 5
                             }
-                        ]
-                    }
-                ]
-            },
-            {
+                        },
+                        {
+                            "type": "variable",
+                            "value": {
+                                "type": "variable",
+                                "value": "C",
+                                "text": "C",
+                                "offset": 6,
+                                "lineBreaks": 0,
+                                "line": 1,
+                                "col": 7
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "functor",
+            "value": {
                 "type": "symbol",
                 "value": {
-                    "type": "symbol",
-                    "value": "1",
-                    "text": "1",
-                    "offset": 8,
+                    "type": "binary4",
+                    "value": "^",
+                    "text": "^",
+                    "offset": 9,
                     "lineBreaks": 0,
                     "line": 1,
-                    "col": 9
+                    "col": 10
                 }
-            }
-        ]
-    }
-]
+            },
+            "args": [
+                {
+                    "type": "variable",
+                    "value": {
+                        "type": "variable",
+                        "value": "A",
+                        "text": "A",
+                        "offset": 8,
+                        "lineBreaks": 0,
+                        "line": 1,
+                        "col": 9
+                    }
+                },
+                []
+            ]
+        }
+    ]
+}

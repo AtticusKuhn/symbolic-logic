@@ -1,2 +1,5 @@
-f_rule f(X) = X + c
-g_rule g(F(a)) = g(a)
+dist A*(B+C) = A*B+A*C
+comm A*B = B*A 
+Assoc A+(B+C) = (A+B)+C
+double A + A = 2*A
+square A^2 = A*A
