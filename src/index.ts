@@ -8,6 +8,7 @@ export function parse(code: string): AST {
     const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
     parser.feed(code);
     const res: AST[] = parser.results
+    // console.log("res", res)
     if (res.length > 1) {
         for (let i = 0; i < res.length; i++) {
             console.log("ambiguous parser")
@@ -17,6 +18,7 @@ export function parse(code: string): AST {
         throw new Error("ambiguous parser")
     }
     if (parser.results.length === 0) {
+        console.log(`no parse found for`, code)
         throw new Error(`no parse found for code "${code}"`)
     }
     return parser.results[0]
@@ -138,6 +140,9 @@ const toRule = (rule: AST): Rule => (input) => {
 type Rule = (ast: AST) => AST;
 const infixes = new Set<string>(["+", "-", "*", "/", "^", "="])
 const ASTToString = (AST: AST): string => {
+    if (AST === undefined) {
+        return "undefined"
+    }
     if (AST.type === "functor") {
         if (infixes.has(AST?.value?.value?.value)) {
             return `(${ASTToString(AST.args[0])} ${AST.value.value} ${ASTToString(AST.args[1])})`
@@ -208,18 +213,31 @@ const apply = (AST: AST): Set<string> => {
     }
     return s;
 }
+const size = (ast: AST): number => {
+    if (ast.type === "symbol") return 1
+    if (ast.type === "variable") return 1
+    return 1 + ast.args.map(size).reduce((a, b) => a + b, 0)
+}
+///@ts-ignore
+const simplify = (ast: AST): AST => {
+    const equivalent_exprs = apply(ast)
+    let min = 9999999;
+    //@ts-ignore
+    let expr: AST = undefined
+    for (const e of equivalent_exprs) {
+        // console.log(e)
+        if (size(parse(e)) < min) {
+            min = size(parse(e));
+            expr = parse(e)
+        }
+    }
+    return expr;
+}
 // const dist = toRule(parse(`A*(B+C) = A*B+A*C`))
 // const comm = toRule(parse(` A*B = B*A `))
 // const Assoc = toRule(parse(`A+(B+C) = (A+B)+C`))
 // const double = toRule(parse(` A + A = 2*A`))
-const expr = parse(`((((A * A) + (B * A)) + (A * B)) + (B * B))`)
-// console.log(
-// const square = toRule(parse(`A*A=A^2`))
-// console.log(
-//     "apply", ASTToString(applyRule(expr, square))
-// );
-const s = apply(expr)
-console.log([...s].join("\n"));
+console.log(ASTToString(simplify(parse("A*A + B*A + A*B + B*B"))))
 // const dist = toRule(parse(`A*(B+C) = A*B+A*C`))
 // console.log("dist", patternMatch(parse(`A+A`), parse("1+2")))
 // )

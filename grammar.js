@@ -29,12 +29,22 @@ primary  (%binary4   operator4):*
     ]
 ]
     */
-const binaryFunc = (d)=>{
-    // console.log("d", JSON.stringify(d, null, 2))
+const binaryFunc2 = ([left, op, right])=>{
+    return {
+            type:"functor",
+            value:{
+                type:"symbol",
+                value: op
+            },
+        args: [left, right]
+    }
+}
+const binaryFunc = (d, l, reject)=>{
+ console.log("d", JSON.stringify(d, null, 2))
     const left = d[0]
     const right =  d[1]
     //console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
-    if(left === null || left === undefined){
+   if(left === null || left === undefined){
         return right
     }
     if(right === undefined || right === null){
@@ -42,6 +52,11 @@ const binaryFunc = (d)=>{
     }
     if(right.length === 0) return left
     const op = right[0][0]
+    console.log("op", op)
+    if(!op){
+        console.log("no op", left, right)
+        return left
+    }
     return {
             type:"functor",
             value:{
@@ -74,22 +89,14 @@ var grammar = {
     Lexer: lexer,
     ParserRules: [
     {"name": "tree", "symbols": ["operator1"], "postprocess": id},
-    {"name": "operator1$ebnf$1", "symbols": []},
-    {"name": "operator1$ebnf$1$subexpression$1", "symbols": [(lexer.has("binary1") ? {type: "binary1"} : binary1), "operator1"]},
-    {"name": "operator1$ebnf$1", "symbols": ["operator1$ebnf$1", "operator1$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "operator1", "symbols": ["operator2", "operator1$ebnf$1"], "postprocess": binaryFunc},
-    {"name": "operator2$ebnf$1", "symbols": []},
-    {"name": "operator2$ebnf$1$subexpression$1", "symbols": [(lexer.has("binary2") ? {type: "binary2"} : binary2), "operator2"]},
-    {"name": "operator2$ebnf$1", "symbols": ["operator2$ebnf$1", "operator2$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "operator2", "symbols": ["operator3", "operator2$ebnf$1"], "postprocess": binaryFunc},
-    {"name": "operator3$ebnf$1", "symbols": []},
-    {"name": "operator3$ebnf$1$subexpression$1", "symbols": [(lexer.has("binary3") ? {type: "binary3"} : binary3), "operator3"]},
-    {"name": "operator3$ebnf$1", "symbols": ["operator3$ebnf$1", "operator3$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "operator3", "symbols": ["operator4", "operator3$ebnf$1"], "postprocess": binaryFunc},
-    {"name": "operator4$ebnf$1", "symbols": []},
-    {"name": "operator4$ebnf$1$subexpression$1", "symbols": [(lexer.has("binary4") ? {type: "binary4"} : binary4), "operator4"]},
-    {"name": "operator4$ebnf$1", "symbols": ["operator4$ebnf$1", "operator4$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "operator4", "symbols": ["primary", "operator4$ebnf$1"], "postprocess": binaryFunc},
+    {"name": "operator1", "symbols": ["operator2", (lexer.has("binary1") ? {type: "binary1"} : binary1), "operator1"], "postprocess": binaryFunc2},
+    {"name": "operator1", "symbols": ["operator2"], "postprocess": id},
+    {"name": "operator2", "symbols": ["operator3", (lexer.has("binary2") ? {type: "binary2"} : binary2), "operator2"], "postprocess": binaryFunc2},
+    {"name": "operator2", "symbols": ["operator3"], "postprocess": id},
+    {"name": "operator3", "symbols": ["operator4", (lexer.has("binary3") ? {type: "binary3"} : binary3), "operator3"], "postprocess": binaryFunc2},
+    {"name": "operator3", "symbols": ["operator4"], "postprocess": id},
+    {"name": "operator4", "symbols": ["primary", (lexer.has("binary4") ? {type: "binary4"} : binary4), "operator4"], "postprocess": binaryFunc2},
+    {"name": "operator4", "symbols": ["primary"], "postprocess": id},
     {"name": "primary", "symbols": [(lexer.has("lParen") ? {type: "lParen"} : lParen), "tree", (lexer.has("rParen") ? {type: "rParen"} : rParen)], "postprocess": (d) => d[1]},
     {"name": "primary", "symbols": ["applicationChain"], "postprocess": id},
     {"name": "primary", "symbols": [(lexer.has("symbol") ? {type: "symbol"} : symbol)], "postprocess": d=>({

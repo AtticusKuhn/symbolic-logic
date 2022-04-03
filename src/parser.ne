@@ -25,12 +25,22 @@ primary  (%binary4   operator4):*
     ]
 ]
     */
-const binaryFunc = (d)=>{
-    // console.log("d", JSON.stringify(d, null, 2))
+const binaryFunc2 = ([left, op, right])=>{
+    return {
+            type:"functor",
+            value:{
+                type:"symbol",
+                value: op
+            },
+        args: [left, right]
+    }
+}
+const binaryFunc = (d, l, reject)=>{
+ console.log("d", JSON.stringify(d, null, 2))
     const left = d[0]
     const right =  d[1]
     //console.log("d[0]", d[0], `d[0] === null`,  d[0] === null)
-    if(left === null || left === undefined){
+   if(left === null || left === undefined){
         return right
     }
     if(right === undefined || right === null){
@@ -38,6 +48,11 @@ const binaryFunc = (d)=>{
     }
     if(right.length === 0) return left
     const op = right[0][0]
+    console.log("op", op)
+    if(!op){
+        console.log("no op", left, right)
+        return left
+    }
     return {
             type:"functor",
             value:{
@@ -75,10 +90,14 @@ const binaryFunc = (d)=>{
 #     | statement {%(d)=>d%}
 # statement ->  tree  {%id%}
 tree -> operator1 {%id%}
-operator1  -> operator2  (%binary1    operator1):* {%binaryFunc%}
-operator2  -> operator3  (%binary2    operator2):* {%binaryFunc%}
-operator3  -> operator4  (%binary3   operator3):* {%binaryFunc%}
-operator4  -> primary  (%binary4   operator4):* {%binaryFunc%}
+operator1  -> operator2 %binary1 operator1 {%binaryFunc2%}  # (%binary1    operator1):* {%binaryFunc2%}
+    | operator2 {%id%}
+operator2  -> operator3 %binary2 operator2 {%binaryFunc2%}  # (%binary2    operator2):* {%binaryFunc%}
+    | operator3 {%id%}
+operator3  -> operator4  %binary3 operator3 {%binaryFunc2%}  #(%binary3   operator3):* {%binaryFunc%}
+    | operator4 {%id%}
+operator4  -> primary  %binary4 operator4 {%binaryFunc2%}  #(%binary4   operator4):* {%binaryFunc%}
+    | primary {%id%}
 
 
 primary  -> 
