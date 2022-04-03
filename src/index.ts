@@ -60,8 +60,19 @@ const patternMatchHelper = (pattern: AST, input: AST, binding: binding): maybe<b
         }
     }
     if (pattern.type === "variable") {
-        binding.set(pattern.value.value, input)
-        return binding
+        if (pattern.value.value === "_") return binding
+        const bound = binding.get(pattern.value.value)
+        if (bound) {
+            if (equal(bound, input)) {
+                return binding
+            } else {
+                // console.log(`pattern matched failed due to already bound varaible: ${bound} !== ${input.value}`)
+                return null;
+            }
+        } else {
+            binding.set(pattern.value.value, input)
+            return binding
+        }
     }
     if (pattern.type === "functor" && input.type === "functor") {
         if (patternMatchHelper(pattern.value, input.value, binding) && input.args.length === pattern.args.length) {
@@ -140,12 +151,12 @@ const loadRules = (): Rule[] => {
     const lines = file.split("\n")
     const rules = lines.map((line) => {
         const a = line.split(" ").slice(1).join(" ");
-        console.log(a)
+        // console.log(a)
         return toRule(parse(a))
     })
     const revRules = lines.map((line) => {
         const a = line.split(" ").slice(1).join(" ");
-        console.log(a)
+        // console.log(a)
         const p = parse(a)
         return toRule({
             ...p,
@@ -155,16 +166,41 @@ const loadRules = (): Rule[] => {
     })
     return [...rules, ...revRules];
 }
+const different = (ast1: AST, ast2: AST): boolean => ASTToString(ast1) !== ASTToString(ast2)
+const equal = (ast1: AST, ast2: AST): boolean => ASTToString(ast1) === ASTToString(ast2)
+
+const applyRule = (ast: AST, rule: Rule): AST => {
+    // console.log("call  on", ASTToString(ast))
+    if (different(rule(ast), ast)) {
+        return rule(ast)
+    } else {
+        if (ast.type === "functor") {
+            const copy = { ...ast }
+            for (let i = 0; i < ast.args.length; i++) {
+                const arg = { ...ast.args[i] }
+                // console.log("loop on", ASTToString(arg))
+                if (different(applyRule(arg, rule), arg)) {
+                    copy.args[i] = applyRule(arg, rule);
+                    return copy
+                }
+            }
+            return ast;
+        } else {
+            return ast
+        }
+    }
+}
 const rules = loadRules()
+//@ts-ignore
 const apply = (AST: AST): Set<string> => {
     const s = new Set<string>([ASTToString(AST)]);
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
         for (const rule of rules) {
             const elements = [...s]
             for (const e of elements) {
-                const r = rule(parse(e))
+                const r = applyRule(parse(e), rule)
                 if (!s.has(ASTToString(r))) {
-                    console.log("adding", ASTToString(r));
+                    // console.log("adding", ASTToString(r));
                     s.add(ASTToString(r))
                 }
             }
@@ -176,10 +212,16 @@ const apply = (AST: AST): Set<string> => {
 // const comm = toRule(parse(` A*B = B*A `))
 // const Assoc = toRule(parse(`A+(B+C) = (A+B)+C`))
 // const double = toRule(parse(` A + A = 2*A`))
-const expr = parse(`(A + B)^2`)
+const expr = parse(`((((A * A) + (B * A)) + (A * B)) + (B * B))`)
 // console.log(
+// const square = toRule(parse(`A*A=A^2`))
+// console.log(
+//     "apply", ASTToString(applyRule(expr, square))
+// );
 const s = apply(expr)
 console.log([...s].join("\n"));
+// const dist = toRule(parse(`A*(B+C) = A*B+A*C`))
+// console.log("dist", patternMatch(parse(`A+A`), parse("1+2")))
 // )
 // console.log("rule", ASTToString(toRule(parse("f(X) = X + 1"))(parse("f(1)")))) // 1+1
 // console.log("rule", ASTToString(toRule(parse("F(a) = F*a + F"))(parse("g(a)")))) // a+g

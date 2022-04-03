@@ -5,7 +5,7 @@ export const lexer = moo.compile({
     lParen: /\(/,
     rParen: /\)/,
     comma: /,/,
-    variable: /[A-Z][A-Za-z]*/,
+    variable: /[A-Z_][A-Za-z]*/,
     binary2: ["+", "-"],///\+|-/,
     binary3: ["*", "/"], // /\*|\//,
     binary4: ["^"], ///\^/,
