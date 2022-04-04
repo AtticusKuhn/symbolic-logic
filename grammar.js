@@ -119,7 +119,7 @@ var grammar = {
                 type:d[0][0].type,
                 value: d[0][0]
         },
-            args:d[1][0]
+            args:d[1][0][0]
         })},
     {"name": "funArgs", "symbols": [(lexer.has("lParen") ? {type: "lParen"} : lParen), "ArgsList", (lexer.has("rParen") ? {type: "rParen"} : rParen)], "postprocess": d=>d[1]},
     {"name": "ArgsList", "symbols": ["tree"], "postprocess": d => d},

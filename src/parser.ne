@@ -118,7 +118,7 @@ applicationChain ->
             type:d[0][0].type,
             value: d[0][0]
     },
-        args:d[1][0]
+        args:d[1][0][0]
     })%}
 funArgs -> %lParen ArgsList %rParen  {%d=>d[1]%}
 ArgsList -> 

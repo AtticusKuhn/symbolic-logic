@@ -4,7 +4,8 @@ const grammar = require("../grammar.js")
 import fs from "fs"
 
 export function parse(code: string): AST {
-    code = code.replace(/[\s\t ]+/g, "")
+    // console.log("parsing", code)
+    code = code.replace(/[\s\t ]+?/g, "")
     const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
     parser.feed(code);
     const res: AST[] = parser.results
@@ -199,13 +200,13 @@ const rules = loadRules()
 //@ts-ignore
 const apply = (AST: AST): Set<string> => {
     const s = new Set<string>([ASTToString(AST)]);
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         for (const rule of rules) {
             const elements = [...s]
             for (const e of elements) {
                 const r = applyRule(parse(e), rule)
                 if (!s.has(ASTToString(r))) {
-                    // console.log("adding", ASTToString(r));
+                    console.log("adding", ASTToString(r));
                     s.add(ASTToString(r))
                 }
             }
@@ -231,13 +232,17 @@ const simplify = (ast: AST): AST => {
             expr = parse(e)
         }
     }
+    console.log(`found ${equivalent_exprs.size} equivalent exprs`)
     return expr;
 }
 // const dist = toRule(parse(`A*(B+C) = A*B+A*C`))
 // const comm = toRule(parse(` A*B = B*A `))
 // const Assoc = toRule(parse(`A+(B+C) = (A+B)+C`))
 // const double = toRule(parse(` A + A = 2*A`))
-console.log(ASTToString(simplify(parse("A*A + B*A + A*B + B*B"))))
+console.log("ast",
+    ASTToString(simplify(parse(`deri(square, x)`))),
+    // JSON.stringify(parse("F(A,B,C,D,E)"), null, 4),
+);
 // const dist = toRule(parse(`A*(B+C) = A*B+A*C`))
 // console.log("dist", patternMatch(parse(`A+A`), parse("1+2")))
 // )

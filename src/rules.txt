@@ -1,5 +1,10 @@
 dist A*(B+C) = A*B+A*C
 comm A*B = B*A 
 Assoc A+(B+C) = (A+B)+C
+acom  A+B=B+A
 double A + A = 2*A
 square A^2 = A*A
+triple A*A^2=A^3
+expad A^B*A^C=A^(B+C)
+e deri(F,X) = (F(X+dx)-F(X))/dx
+sq square(X)=X^2
